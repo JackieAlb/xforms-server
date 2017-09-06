@@ -1,0 +1,208 @@
+swagger: '2.0'
+info:
+  title: 'XForms Platform''s API'
+  description: 'the restful style APIs via XForms Platform Server, include form template manage,template kind manage'
+  version: '1.0.0'
+host: localhost:8090
+schemes:
+- http
+- https
+basePath: /api/v1
+produces:
+- application/json
+
+custreponses: &custreponses
+  200:
+    description: 成功返回
+    schema:
+      $ref: '#/definitions/Response'
+  405:
+    description: 你请求的输入值有问题吧？
+    schema:
+      $ref: '#/definitions/Response'
+  404:
+    description: 哥们，我找不到你要的东西！
+    schema:
+      $ref: '#/definitions/Response'
+  500:
+    description: 服务器受到外星人攻击！正在抢修中……
+    schema:
+      $ref: '#/definitions/Response'
+tags:
+- name: template
+  description: "业务表单的录入与修改模板"
+  externalDocs:
+    description: 获得更多的关于表单模板的内容
+    url: http://localhost:8090/about/template
+- name: kind
+  description: "业务表单类别"
+  externalDocs:
+    description: 获得更多的关于表单模板类别的内容
+    url: http://localhost:8090/about/kind
+- name: queryTemplate
+  description: "业务表单的查询模板"
+  externalDocs:
+    description: 获得更多的关于业务表单的查询模板的内容
+    url: http://localhost:8090/about/template/query 
+paths:
+  /template:
+    post:
+      tags:
+      - template
+      summary: 模板类别列表
+      operationId: addFormTemplate
+      description: 增加一个新的表单模板
+      consumes: 
+      - application/json
+      parameters:
+      - name: template
+        in: body
+        description: "Template object that need to be added" 
+        required: true
+        schema: 
+          $ref: '#/definitions/Template'
+      responses:
+        <<: *custreponses
+    put:
+      tags:
+      - template
+      summary: 模板类别列表
+      operationId: updateFormTemplate
+      description: 更新一个表单模板
+      parameters:
+      - name: template
+        in: body
+        description: "Template object that need to be added" 
+        required: true
+        schema: 
+          $ref: '#/definitions/Template'
+      responses:
+        <<: *custreponses
+    get:
+      tags:
+      - template
+      summary: 模板类别列表
+      operationId: queryFormTemplate
+      description: 表单模板
+      parameters:
+      - name: limit
+        in: query
+        description: "有此参数时查询前面的X条数据" 
+        required: false
+        type: integer
+        format: int32
+      - name: offset
+        in: query
+        description: "有此参数时查询前面当前位移量条的数据" 
+        required: false
+        type: integer
+        format: int32
+      - name: sortby
+        in: query
+        description: "按传入的参数排序后返回结果" 
+        required: false
+        type: string
+      - name: order
+        in: query
+        description: "升降序" 
+        required: false
+        type: string
+        enum: 
+        - "asc"
+        - "desc"
+        default: "desc"
+      responses:
+        200:
+          description: 操作成功
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Template'
+definitions:
+  FormButton:
+    type: object
+    properties:
+      id:
+        type: string
+        description: 按钮ID
+      name:
+        type: string
+        description: 按钮名称
+      type:
+        type: string
+        enum:
+        - cancel
+        - save
+        - start
+      action:
+        type: string 
+        description: "按钮在click时调用的后台Service，参数要求为Json格式
+  FormField:
+    type: object
+    properties:
+      id:
+        type: string
+        description: 字段标识
+      name:
+        type: string
+        description: 字段名称
+      fieldType:
+        type: string
+        description: 字段类型
+      fieldLength:
+        type: integer
+        format: int32
+        description: 字段长度
+      displayClass:
+        type: string
+        enum:
+        - "input"
+        - "datePicker"
+        - "inputNumber"
+        - "timePicker"
+        - "textarea"
+        - "richTextarea"
+        - "singleSelect"
+        - "multiSelect"
+        - "radio"
+        - "checkbox"
+        - "singleSelectDialog"
+        - "multiSelectDialog"
+        - "switch"
+        - "transfer"
+        - "upload"
+        - "table"
+        default: "input"
+        description: 显示方式
+      dataSource:
+        type: string
+        description: 数据来源
+      relations:
+        type: string
+        description: 输入前后关系
+      authorization:
+        type: string
+        enum:
+        - readonly
+        - edit
+        description: 授权
+      buttons:
+        type: array
+        description: 表单中的功能按钮
+        items:
+          $ref: "#/definitions/FormButton"
+  Template:
+    type: object
+    properties:
+      id: 
+        type: string
+        description: 表单ID
+      content:
+        type: string
+        description: "表单模板的schema，实际存储为json格式的字符串"
+  Response:
+    type: object
+    properties:
+      data:
+        type: string
+        description: 返回值
