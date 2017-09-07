@@ -1,0 +1,403 @@
+swagger: '2.0'
+info:
+  title: 'XForms Platform''s API'
+  description: 'the restful style APIs via XForms Platform Server, include form template manage,template kind manage'
+  version: '1.0.0'
+host: localhost:8090
+schemes:
+- http
+- https
+basePath: /api/v1
+produces:
+- application/json
+
+custreponses: &custreponses
+  200:
+    description: return success
+    schema:
+      $ref: '#/definitions/Response'
+  405:
+    description: 你请求的输入值有问题吧？
+    schema:
+      $ref: '#/definitions/Response'
+  404:
+    description: 哥们，我找不到你要的东西！
+    schema:
+      $ref: '#/definitions/Response'
+  500:
+    description: 服务器受到外星人攻击！正在抢修中……
+    schema:
+      $ref: '#/definitions/Response'
+tags:
+- name: Template
+  description: "Template that generates business form"
+  externalDocs:
+    description: "Get more about tempalte"
+    url: http://localhost:8090/about/template
+- name: Kind
+  description: "template's kind"
+  externalDocs:
+    description: "Get more about kind"
+    url: http://localhost:8090/about/kind
+- name: QueryTemplate
+  description: "Generates Query Form by Query template"
+  externalDocs:
+    description: "Get more about Query template"
+    url: http://localhost:8090/about/template/query
+- name: FormButton
+  description: "Generates Query Form by Query template"
+  externalDocs:
+    description: "Get more about Query template"
+    url: http://localhost:8090/about/template/query
+- name: FormField
+  description: "Generates Query Form by Query template"
+  externalDocs:
+    description: "Get more about Query template"
+    url: http://localhost:8090/about/template/query
+- name: User
+  description: "Generates Query Form by Query template"
+  externalDocs:
+    description: "Get more about Query template"
+    url: http://localhost:8090/about/template/query
+- name: Form
+  description: "Generates Query Form by Query template"
+  externalDocs:
+    description: "Get more about Query template"
+    url: http://localhost:8090/about/template/query 
+paths:
+  /template:
+    post:
+      tags:
+      - Template
+      summary: Add a new Template
+      operationId: addFormTemplate
+      description: 
+      consumes: 
+      - application/json
+      parameters:
+      - name: template
+        in: body
+        description: "Template object that need to be added" 
+        required: true
+        schema: 
+          $ref: '#/definitions/Template'
+      responses:
+        <<: *custreponses
+    put:
+      tags:
+      - Template
+      summary: Update a tempalte
+      operationId: updateFormTemplate
+      description: 
+      parameters:
+      - name: template
+        in: body
+        description: "Template object that need to be updated" 
+        required: true
+        schema: 
+          $ref: '#/definitions/Template'
+      responses:
+        <<: *custreponses
+    get:
+      tags:
+      - Template
+      summary: get template list
+      operationId: queryFormTemplate
+      description: 
+      parameters:
+      - name: limit
+        in: query
+        description: only return top limit records 
+        required: false
+        type: integer
+        format: int32
+      - name: offset
+        in: query
+        description: "return more records via offset" 
+        required: false
+        type: integer
+        format: int32
+      - name: sortby
+        in: query
+        description: "separating multi-fields by '|' that be used sortby" 
+        required: false
+        type: string
+      - name: order
+        in: query
+        description: "asc or desc" 
+        required: false
+        type: string
+        enum: 
+        - "asc"
+        - "desc"
+        default: "desc"
+      responses:
+        200:
+          description: 操作成功
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Template'
+  /template/{templateId}:
+    get:
+      tags:
+      - Template
+      summary: Find tempalte by ID
+      operationId: queryTempalteById
+      description: Returns a single tempalte
+      parameters:
+      - name: templateId
+        in: path
+        description: ID of template to return
+        required: true
+        type: string
+      response:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Template"
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Template not found
+    delete:
+      tags:
+      - Template
+      summary: Delete tempalte by ID
+      operationId: deleteTempateById
+      description: Delete a single tempalte
+      parameters:
+      - name: templateId
+        in: path
+        description: ID of template to delete
+        required: true
+        type: string
+      response:
+        200:
+          description: successful operation
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Template not found
+  /template/form/{templateId}:
+    get:
+      tags:
+      - Form
+      summary: "Generate a business form  by template ID"
+      operationId: generateFormByTemplateId
+      description: "Returns a single business form"
+      parameters:
+      - name: templateId
+        in: path
+        description: ID of template to return
+        required: true
+        type: string
+      response:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Form"
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Template not found
+  /form/{formId}:
+    get:
+      tags:
+      - Form
+      summary: "Get a business form  by ID"
+      operationId: queryFormById
+      description: "Returns a single business form"
+      parameters:
+      - name: formId
+        in: path
+        description: ID of template to return
+        required: true
+        type: string
+      response:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Form"
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Template not found
+    delete:
+      tags:
+      - Form
+      summary: Delete form by ID
+      operationId: deleteFormById
+      description: Delete a single Form
+      parameters:
+      - name: formId
+        in: path
+        description: ID of Form to delete
+        required: true
+        type: string
+      response:
+        200:
+          description: successful operation
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Template not found
+  /form:
+    get:
+      tags:
+      - Form
+      summary: Get forms list
+      operationId: queryForm
+      description: 
+      parameters:
+      - name: limit
+        in: query
+        description: only return top limit records 
+        required: false
+        type: integer
+        format: int32
+      - name: offset
+        in: query
+        description: "return more records via offset" 
+        required: false
+        type: integer
+        format: int32
+      - name: sortby
+        in: query
+        description: "separating multi-fields by '|' that be used sortby" 
+        required: false
+        type: string
+      - name: order
+        in: query
+        description: "asc or desc" 
+        required: false
+        type: string
+        enum: 
+        - "asc"
+        - "desc"
+        default: "desc"
+      response:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Form"
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Template not found
+    post:
+      tags:
+      - Form
+      summary: Add a new Template
+      operationId: updateForm
+      description: 
+      consumes: 
+      - application/json
+      parameters:
+      - name: form
+        in: body
+        description: "Template object that need to be added" 
+        required: true
+        schema: 
+          $ref: '#/definitions/Form'
+      responses:
+        <<: *custreponses
+definitions:
+  FormButton:
+    type: object
+    properties:
+      id:
+        type: string
+        description: 按钮ID
+      name:
+        type: string
+        description: 按钮名称
+      action:
+        type: string 
+        description: "按钮在click时调用的后台Service，参数要求为Json格式"
+  FormField:
+    type: object
+    properties:
+      id:
+        type: string
+        description: 字段标识
+      name:
+        type: string
+        description: 字段名称
+      fieldType:
+        type: string
+        description: 字段类型
+      fieldLength:
+        type: integer
+        format: int32
+        description: 字段长度
+      displayClass:
+        type: string
+        enum: 
+        - "input"
+        - "datePicker"
+        - "inputNumber"
+        - "timePicker"
+        - "textarea"
+        - "richTextarea"
+        - "singleSelect"
+        - "multiSelect"
+        - "radio"
+        - "checkbox"
+        - "singleSelectDialog"
+        - "multiSelectDialog"
+        - "switch"
+        - "transfer"
+        - "upload"
+        - "table"
+        default: "input"
+        description: 显示方式
+      dataSource:
+        type: string
+        description: 数据来源
+      relations:
+        type: string
+        description: 输入前后关系
+      authorization:
+        type: string
+        enum:
+        - readonly
+        - edit
+        description: 授权
+      buttons:
+        type: array
+        description: 表单中的功能按钮
+        items:
+          $ref: "#/definitions/FormButton"
+  Form:
+    type: object
+    properties:
+      id:
+        type: string
+        description:
+      tempalteId:
+        type: string
+        description:
+      value:
+        type: string
+        description:
+  Template:
+    type: object
+    properties:
+      id: 
+        type: string
+        description: 表单ID
+      version:
+        type: string
+        description:
+      content:
+        type: string
+        description: "表单模板的schema，实际存储为json格式的字符串"
+  Response:
+    type: object
+    properties:
+      data:
+        type: string
+        description: 返回值

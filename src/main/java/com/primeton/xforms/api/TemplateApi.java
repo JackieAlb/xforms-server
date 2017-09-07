@@ -5,50 +5,82 @@
  */
 package com.primeton.xforms.api;
 
-
-import io.swagger.annotations.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.primeton.xforms.model.Response;
 import com.primeton.xforms.model.Template;
 
+import io.swagger.annotations.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
-
+import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-09-05T16:51:09.815+08:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-09-06T21:06:45.082+08:00")
 
-@Api(value = "template")
+@Api(value = "template", description = "the template API")
 public interface TemplateApi {
 
-    @ApiOperation(value = "模板类别列表", notes = "增加一个新的表单模板", response = Response.class, tags={ "template" })
+    @ApiOperation(value = "Add a new Template", notes = "null", response = Response.class, tags={ "Template", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "成功返回", response = Response.class),
+        @ApiResponse(code = 200, message = "return success", response = Response.class),
         @ApiResponse(code = 404, message = "哥们，我找不到你要的东西！", response = Response.class),
         @ApiResponse(code = 405, message = "你请求的输入值有问题吧？", response = Response.class),
         @ApiResponse(code = 500, message = "服务器受到外星人攻击！正在抢修中……", response = Response.class) })
     
     @RequestMapping(value = "/template",
-        produces = { "application/json"}, 
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Response> addFormTemplate(@ApiParam(value = "Template object that need to be added" ,required=true )  @Valid @RequestBody Template template);
 
 
-    @ApiOperation(value = "模板类别列表", notes = "更新一个表单模板", response = Template.class, tags={ "template" })
+    @ApiOperation(value = "Delete tempalte by ID", notes = "Delete a single tempalte", response = Void.class, tags={ "Template", })
+    @ApiResponses(value = {  })
+    
+    @RequestMapping(value = "/template/{templateId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteTempateById(@ApiParam(value = "ID of template to delete",required=true ) @PathVariable("templateId") String templateId);
+
+
+    @ApiOperation(value = "Generate a business form  by template ID", notes = "Returns a single business form", response = Void.class, tags={ "Form", })
+    @ApiResponses(value = {  })
+    
+    @RequestMapping(value = "/template/form/{templateId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Void> generateFormByTemplateId(@ApiParam(value = "ID of template to return",required=true ) @PathVariable("templateId") String templateId);
+
+
+    @ApiOperation(value = "get template list", notes = "null", response = Template.class, responseContainer = "List", tags={ "Template", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "操作成功", response = Template.class) })
+        @ApiResponse(code = 200, message = "操作成功", response = Template.class, responseContainer = "List") })
     
     @RequestMapping(value = "/template",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Template>> queryFormTemplate(@ApiParam(value = "Template object that need to be added" ,required=true )  @Valid @RequestBody Template template);
+    ResponseEntity<List<Template>> queryFormTemplate(@ApiParam(value = "only return top limit records") @RequestParam(value = "limit", required = false) Integer limit,@ApiParam(value = "return more records via offset") @RequestParam(value = "offset", required = false) Integer offset,@ApiParam(value = "separating multi-fields by '|' that be used sortby") @RequestParam(value = "sortby", required = false) String sortby,@ApiParam(value = "asc or desc", allowableValues = "asc, desc", defaultValue = "desc") @RequestParam(value = "order", required = false, defaultValue="desc") String order);
 
 
-    @ApiOperation(value = "模板类别列表", notes = "更新一个表单模板", response = Response.class, tags={ "template"})
+    @ApiOperation(value = "Find tempalte by ID", notes = "Returns a single tempalte", response = Void.class, tags={ "Template", })
+    @ApiResponses(value = {@ApiResponse(code=200,message = "success",response=Template.class)})
+    
+    @RequestMapping(value = "/template/{templateId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Template> queryTempalteById(@ApiParam(value = "ID of template to return",required=true ) @PathVariable("templateId") String templateId);
+
+
+    @ApiOperation(value = "Update a tempalte", notes = "null", response = Response.class, tags={ "Template", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "成功返回", response = Response.class),
+        @ApiResponse(code = 200, message = "return success", response = Response.class),
         @ApiResponse(code = 404, message = "哥们，我找不到你要的东西！", response = Response.class),
         @ApiResponse(code = 405, message = "你请求的输入值有问题吧？", response = Response.class),
         @ApiResponse(code = 500, message = "服务器受到外星人攻击！正在抢修中……", response = Response.class) })
@@ -56,6 +88,6 @@ public interface TemplateApi {
     @RequestMapping(value = "/template",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<Response> updateFormTemplate(@ApiParam(value = "Template object that need to be added" ,required=true )  @Valid @RequestBody Template template);
+    ResponseEntity<Response> updateFormTemplate(@ApiParam(value = "Template object that need to be updated" ,required=true )  @Valid @RequestBody Template template);
 
 }

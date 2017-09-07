@@ -9,30 +9,30 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Template
+ * FormButton
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-09-06T21:06:45.082+08:00")
 
-public class Template   {
+public class FormButton   {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("version")
-  private String version = null;
+  @JsonProperty("name")
+  private String name = null;
 
-  @JsonProperty("content")
-  private String content = null;
+  @JsonProperty("action")
+  private String action = null;
 
-  public Template id(String id) {
+  public FormButton id(String id) {
     this.id = id;
     return this;
   }
 
    /**
-   * 表单ID
+   * 按钮ID
    * @return id
   **/
-  @ApiModelProperty(value = "表单ID")
+  @ApiModelProperty(value = "按钮ID")
 
 
   public String getId() {
@@ -43,44 +43,44 @@ public class Template   {
     this.id = id;
   }
 
-  public Template version(String version) {
-    this.version = version;
+  public FormButton name(String name) {
+    this.name = name;
     return this;
   }
 
    /**
-   * null
-   * @return version
+   * 按钮名称
+   * @return name
   **/
-  @ApiModelProperty(value = "null")
+  @ApiModelProperty(value = "按钮名称")
 
 
-  public String getVersion() {
-    return version;
+  public String getName() {
+    return name;
   }
 
-  public void setVersion(String version) {
-    this.version = version;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public Template content(String content) {
-    this.content = content;
+  public FormButton action(String action) {
+    this.action = action;
     return this;
   }
 
    /**
-   * 表单模板的schema，实际存储为json格式的字符串
-   * @return content
+   * 按钮在click时调用的后台Service，参数要求为Json格式
+   * @return action
   **/
-  @ApiModelProperty(value = "表单模板的schema，实际存储为json格式的字符串")
+  @ApiModelProperty(value = "按钮在click时调用的后台Service，参数要求为Json格式")
 
 
-  public String getContent() {
-    return content;
+  public String getAction() {
+    return action;
   }
 
-  public void setContent(String content) {
-    this.content = content;
+  public void setAction(String action) {
+    this.action = action;
   }
 
 
@@ -92,25 +92,25 @@ public class Template   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Template template = (Template) o;
-    return Objects.equals(this.id, template.id) &&
-        Objects.equals(this.version, template.version) &&
-        Objects.equals(this.content, template.content);
+    FormButton formButton = (FormButton) o;
+    return Objects.equals(this.id, formButton.id) &&
+        Objects.equals(this.name, formButton.name) &&
+        Objects.equals(this.action, formButton.action);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, version, content);
+    return Objects.hash(id, name, action);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Template {\n");
+    sb.append("class FormButton {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    version: ").append(toIndentedString(version)).append("\n");
-    sb.append("    content: ").append(toIndentedString(content)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    action: ").append(toIndentedString(action)).append("\n");
     sb.append("}");
     return sb.toString();
   }

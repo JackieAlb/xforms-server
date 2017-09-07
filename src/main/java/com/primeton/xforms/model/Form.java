@@ -9,30 +9,30 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Template
+ * Form
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-09-06T21:06:45.082+08:00")
 
-public class Template   {
+public class Form   {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("version")
-  private String version = null;
+  @JsonProperty("tempalteId")
+  private String tempalteId = null;
 
-  @JsonProperty("content")
-  private String content = null;
+  @JsonProperty("value")
+  private String value = null;
 
-  public Template id(String id) {
+  public Form id(String id) {
     this.id = id;
     return this;
   }
 
    /**
-   * 表单ID
+   * null
    * @return id
   **/
-  @ApiModelProperty(value = "表单ID")
+  @ApiModelProperty(value = "null")
 
 
   public String getId() {
@@ -43,44 +43,44 @@ public class Template   {
     this.id = id;
   }
 
-  public Template version(String version) {
-    this.version = version;
+  public Form tempalteId(String tempalteId) {
+    this.tempalteId = tempalteId;
     return this;
   }
 
    /**
    * null
-   * @return version
+   * @return tempalteId
   **/
   @ApiModelProperty(value = "null")
 
 
-  public String getVersion() {
-    return version;
+  public String getTempalteId() {
+    return tempalteId;
   }
 
-  public void setVersion(String version) {
-    this.version = version;
+  public void setTempalteId(String tempalteId) {
+    this.tempalteId = tempalteId;
   }
 
-  public Template content(String content) {
-    this.content = content;
+  public Form value(String value) {
+    this.value = value;
     return this;
   }
 
    /**
-   * 表单模板的schema，实际存储为json格式的字符串
-   * @return content
+   * null
+   * @return value
   **/
-  @ApiModelProperty(value = "表单模板的schema，实际存储为json格式的字符串")
+  @ApiModelProperty(value = "null")
 
 
-  public String getContent() {
-    return content;
+  public String getValue() {
+    return value;
   }
 
-  public void setContent(String content) {
-    this.content = content;
+  public void setValue(String value) {
+    this.value = value;
   }
 
 
@@ -92,25 +92,25 @@ public class Template   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Template template = (Template) o;
-    return Objects.equals(this.id, template.id) &&
-        Objects.equals(this.version, template.version) &&
-        Objects.equals(this.content, template.content);
+    Form form = (Form) o;
+    return Objects.equals(this.id, form.id) &&
+        Objects.equals(this.tempalteId, form.tempalteId) &&
+        Objects.equals(this.value, form.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, version, content);
+    return Objects.hash(id, tempalteId, value);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Template {\n");
+    sb.append("class Form {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    version: ").append(toIndentedString(version)).append("\n");
-    sb.append("    content: ").append(toIndentedString(content)).append("\n");
+    sb.append("    tempalteId: ").append(toIndentedString(tempalteId)).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();
   }
