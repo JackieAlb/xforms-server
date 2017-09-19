@@ -1,0 +1,16 @@
+server:
+  port: 8090
+  tomcat:
+    uri-encoding: UTF-8
+#  ssl:
+#    key-store: keystore.p12
+#    key-store-password: ytmlghd999
+#    keyStoreType: PKCS12
+#    keyAlias: xforms
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/xforms
+    username: xiegz
+    password: ytmlghd999
+    driver-class-name: org.postgresql.Driver
+  
