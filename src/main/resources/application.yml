@@ -9,7 +9,7 @@ server:
 #    keyAlias: xforms
 spring:
   datasource:
-    url: jdbc:postgresql://localhost/xforms
+    url: jdbc:postgresql://192.168.8.221:5432/xforms
     username: xiegz
     password: ytmlghd999
     driver-class-name: org.postgresql.Driver

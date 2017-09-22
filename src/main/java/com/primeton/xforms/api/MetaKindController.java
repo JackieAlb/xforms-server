@@ -71,7 +71,8 @@ public class MetaKindController {
 	public ResponseEntity<Result> insertMetaKind(
 			@ApiParam(value = "元数据类别", required = true) @Valid @RequestBody MetaKindEntity metaKind) {
 		//use uuid as a primary key 
-		metaKind.setId(UUID.randomUUID().toString());
+		metaKind.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+		
 		int cnt = metaKindMapper.insert(metaKind);
 		ResponseEntity<Result> response;
 		if (cnt > 0)
